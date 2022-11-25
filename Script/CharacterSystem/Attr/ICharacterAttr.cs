@@ -10,4 +10,9 @@ public class ICharacterAttr
     protected float _moveSpeed;
     protected int _currentHp;
     protected String _iconSpritc;
+
+    protected int _LV;
+    protected float _criticalRate;
+
+    protected IAttrStrategy _attrStrategy;
 }
