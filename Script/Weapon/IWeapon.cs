@@ -20,6 +20,10 @@ public abstract class IWeapon
 
     protected float _effectPlayTime = 0f;
 
+    public float attackRange
+    {
+        get { return _attkRange; }
+    }
     public void Update()
     {
         if (_effectPlayTime>0)

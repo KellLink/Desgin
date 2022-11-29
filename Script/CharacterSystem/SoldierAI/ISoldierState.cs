@@ -21,7 +21,14 @@ public abstract class ISoldierState
 {
     protected Dictionary<SoldierTransition, SoldierStateId> _map = new Dictionary<SoldierTransition, SoldierStateId>();
     protected SoldierStateId _stateId;
+    protected ICharacter _character;
+    protected SoldierFSMSystem _FSM;
 
+    public ISoldierState(SoldierFSMSystem fsm,ICharacter character)
+    {
+        _FSM = fsm;
+        _character = character;
+    }
     public SoldierStateId StateId
     {
         get { return _stateId; }
@@ -74,6 +81,6 @@ public abstract class ISoldierState
     public virtual void DoBeforeEntering(){}
     public virtual void DoBeforeLeaving(){}
 
-    public abstract void Reason();
-    public abstract void Act();
+    public abstract void Reason(List<ICharacter> targets);
+    public abstract void Act(List<ICharacter> targets);
 }

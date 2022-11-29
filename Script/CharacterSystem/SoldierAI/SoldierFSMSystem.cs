@@ -7,11 +7,19 @@ public class SoldierFSMSystem
     private List<ISoldierState> _states = new List<ISoldierState>();
     private ISoldierState _currentState;
 
+    
     public ISoldierState currentState
     {
         get { return _currentState; }
     }
 
+    public void AddState(params ISoldierState[] states)
+    {
+        foreach (ISoldierState state in states)
+        {
+            AddState(state);
+        }
+    }
     public void AddState(ISoldierState state)
     {
         if (state==null)
