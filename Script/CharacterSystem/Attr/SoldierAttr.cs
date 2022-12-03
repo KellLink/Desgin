@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class SoldierAttr : ICharacterAttr
 {
-    
+    public SoldierAttr(IAttrStrategy attrStrategy) : base(attrStrategy)
+    {
+    }
 }

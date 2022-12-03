@@ -8,7 +8,7 @@ public abstract class IWeapon
 {
     protected int _attkPoint;
     protected float _attkRange;
-    protected int _attkCriticaPoint;
+    // protected int _attkCriticaPoint;
 
     protected GameObject _gameObject;
     protected ICharacter _owner;
@@ -19,6 +19,11 @@ public abstract class IWeapon
     protected AudioSource _audioSource;
 
     protected float _effectPlayTime = 0f;
+    
+    public int AttackPoint
+    {
+        get { return _attkPoint; }
+    }
 
     public float attackRange
     {

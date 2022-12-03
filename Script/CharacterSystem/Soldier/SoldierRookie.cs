@@ -4,5 +4,13 @@ using UnityEngine;
 
 public class SoldierRookie : ISoldier
 {
-    
+    protected override void PlaySound()
+    {
+        DoPlaySoundGeneric("RookieDeath");
+    }
+
+    protected override void PlayEffect()
+    {
+        DoPlayEffectGenic("RookieDeadEffect");
+    }
 }

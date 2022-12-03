@@ -78,4 +78,10 @@ public class GameFacade
         _uiSodierInfo.End();
         _uiStateInfo.End();
     }
+
+    public Vector3 GetEnemyTargetPosition()
+    {
+        //TODO 
+        return Vector3.zero;
+    }
 }

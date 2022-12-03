@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class EnemyTroll : IEnemy
 {
-    
+    protected override void PlayEffect()
+    {
+        DoPlayEffectGenic("TrollHitEffect");
+    }
 }

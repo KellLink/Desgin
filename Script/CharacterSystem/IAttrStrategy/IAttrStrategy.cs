@@ -3,4 +3,6 @@
     public float GetExtraHp(int lv);
     public float GetExtraSpeed(int lv);
     public float GetExtraCriticalRate(int lv);
+
+    public int GetCriticalPoints(float cirtRate);
 }

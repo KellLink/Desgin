@@ -1,48 +1,46 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum SoldierTransition
+public enum EnemyTransition
 {
-    NullTranstiion,
-    SeeEnemy,
-    NoEnemyInsight,
-    CanAttack
+    NullTransition = 0,
+    CanAttack,
+    NoSoldierInsight
 }
 
-public enum SoldierStateId
+public enum EnemyStateId
 {
-    NullState,
-    Idle,
-    Chase,
-    Attack
+    NullState = 0,
+    ChaseState,
+    AttackState
 }
 
-public abstract class ISoldierState
+public abstract class IEnemyState
 {
-    protected Dictionary<SoldierTransition, SoldierStateId> _map = new Dictionary<SoldierTransition, SoldierStateId>();
-    protected SoldierStateId _stateId;
+    protected Dictionary<EnemyTransition, EnemyStateId> _map = new Dictionary<EnemyTransition, EnemyStateId>();
+    protected EnemyStateId _stateId;
     protected ICharacter _character;
-    protected SoldierFSMSystem _FSM;
+    protected EnemyFSMSystem _FSM;
 
-    public ISoldierState(SoldierFSMSystem fsm,ICharacter character)
+    public IEnemyState(EnemyFSMSystem fsm,ICharacter character)
     {
         _FSM = fsm;
         _character = character;
     }
-    public SoldierStateId StateId
+    public EnemyStateId StateId
     {
         get { return _stateId; }
     }
 
-    public void AddTransition(SoldierTransition transition, SoldierStateId soldierStateId) 
+    public void AddTransition(EnemyTransition transition, EnemyStateId EnemyStateId) 
     {
-        if (transition==SoldierTransition.NullTranstiion)
+        if (transition==EnemyTransition.NullTransition)
         {
             Debug.Log("Null transition is valid");
             return;
         }
 
-        if (soldierStateId==SoldierStateId.NullState)
+        if (EnemyStateId==EnemyStateId.NullState)
         {
             Debug.Log("Null state id is valid");
             return;
@@ -53,10 +51,10 @@ public abstract class ISoldierState
             Debug.Log("Transition"+transition+"is contain");
         }
         
-        _map.Add(transition,soldierStateId);
+        _map.Add(transition,EnemyStateId);
     }
 
-    public void DeleteTransition(SoldierTransition transition)
+    public void DeleteTransition(EnemyTransition transition)
     {
         if (!_map.ContainsKey(transition))
         {
@@ -67,12 +65,12 @@ public abstract class ISoldierState
         _map.Remove(transition);
     }
 
-    public SoldierStateId GetOutputState(SoldierTransition transition)
+    public EnemyStateId GetOutputState(EnemyTransition transition)
     {
         if (!_map.ContainsKey(transition))
         {
             Debug.Log("Transition"+transition+"is not contain");
-            return SoldierStateId.NullState;
+            return EnemyStateId.NullState;
         }
 
         return _map[transition];

@@ -2,25 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoldierFSMSystem
+public class EnemyFSMSystem 
 {
-    private List<ISoldierState> _states = new List<ISoldierState>();
-    private ISoldierState _currentState;
+    private List<IEnemyState> _states = new List<IEnemyState>();
+    private IEnemyState _currentState;
 
     
-    public ISoldierState currentState
+    public IEnemyState currentState
     {
         get { return _currentState; }
     }
 
-    public void AddState(params ISoldierState[] states)
+    public void AddState(params IEnemyState[] states)
     {
-        foreach (ISoldierState state in states)
+        foreach (IEnemyState state in states)
         {
             AddState(state);
         }
     }
-    public void AddState(ISoldierState state)
+    public void AddState(IEnemyState state)
     {
         if (state==null)
         {
@@ -32,10 +32,11 @@ public class SoldierFSMSystem
         {
             _states.Add(state);
             _currentState = state;
+            _currentState.DoBeforeEntering();
             return;     
         }
         
-        foreach (ISoldierState stat in _states)
+        foreach (IEnemyState stat in _states)
         {
             if (stat==state)
             {
@@ -47,15 +48,15 @@ public class SoldierFSMSystem
         _states.Add(state);
     }
 
-    public void DeleteState(SoldierStateId stateId)
+    public void DeleteState(EnemyStateId stateId)
     {
-        if (stateId==SoldierStateId.NullState)  
+        if (stateId==EnemyStateId.NullState)  
         {
             Debug.Log("statId is NullState");
             return;
         }
 
-        foreach (ISoldierState state in _states)
+        foreach (IEnemyState state in _states)
         {
             if (state.StateId==stateId)
             {
@@ -67,23 +68,23 @@ public class SoldierFSMSystem
         Debug.Log("stateId"+stateId+"is not contain");
     }
 
-    public void PerFormTransition(SoldierTransition transition)
+    public void PerFormTransition(EnemyTransition transition)
     {
-        if (transition==SoldierTransition.NullTranstiion)
+        if (transition==EnemyTransition.NullTransition)
         {
             Debug.Log("transition is NullTransition");
             return;
         }
 
-        SoldierStateId nextStateId = _currentState.GetOutputState(transition);
+        EnemyStateId nextStateId = _currentState.GetOutputState(transition);
 
-        if (nextStateId==SoldierStateId.NullState)
+        if (nextStateId==EnemyStateId.NullState)
         {
             Debug.Log("Transition"+transition+"is not valid state");
             return;
         }
         
-        foreach (ISoldierState state in _states)
+        foreach (IEnemyState state in _states)
         {
             if (state.StateId==nextStateId)
             {
