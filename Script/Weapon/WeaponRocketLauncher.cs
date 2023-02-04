@@ -18,4 +18,8 @@ public class WeaponRocketLauncher : IWeapon
     {
         _effectPlayTime = 0.5f;
     }
+
+    public WeaponRocketLauncher(int attkPoint, float attkRange, GameObject gameObject) : base(attkPoint, attkRange, gameObject)
+    {
+    }
 }

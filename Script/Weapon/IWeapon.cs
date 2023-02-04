@@ -4,6 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
+public enum WeaponType
+{
+    Gun,
+    Rifle,
+    Rocket
+}
+
 public abstract class IWeapon
 {
     protected int _attkPoint;
@@ -19,7 +26,34 @@ public abstract class IWeapon
     protected AudioSource _audioSource;
 
     protected float _effectPlayTime = 0f;
-    
+
+    protected IWeapon(int attkPoint, float attkRange, GameObject gameObject)
+    {
+        _attkPoint = attkPoint;
+        _attkRange = attkRange;
+        _gameObject = gameObject;
+
+        //GameObject effect = GameObject.Find("Effect");s
+        GameObject effect = UnityToolkit.FindInChildren(this._gameObject,"Effect");
+        _particle = effect.GetComponent<ParticleSystem>();
+        _lineRenderer = effect.GetComponent<LineRenderer>();
+        _light = effect.GetComponent<Light>();
+        _audioSource = effect.GetComponent<AudioSource>();
+    }
+
+    public GameObject GameObject
+    {
+        get { return _gameObject; }
+    }
+
+    public ICharacter Owner
+    {
+        set
+        {
+            _owner = value;
+        }
+    }
+
     public int AttackPoint
     {
         get { return _attkPoint; }
@@ -29,12 +63,13 @@ public abstract class IWeapon
     {
         get { return _attkRange; }
     }
+
     public void Update()
     {
-        if (_effectPlayTime>0)
+        if (_effectPlayTime > 0)
         {
             _effectPlayTime -= Time.deltaTime;
-            if (_effectPlayTime<0)
+            if (_effectPlayTime < 0)
             {
                 DisableEffects();
             }
@@ -54,6 +89,7 @@ public abstract class IWeapon
         _particle.Play();
         _light.enabled = true;
     }
+
     protected abstract void PlayBulletEffect(Vector3 targetPostion);
     protected abstract void PlaySoundEffect(Vector3 targetPostion);
 
@@ -62,13 +98,13 @@ public abstract class IWeapon
         _lineRenderer.enabled = true;
         _lineRenderer.startWidth = lineWidth;
         _lineRenderer.endWidth = lineWidth;
-        _lineRenderer.SetPosition(0,_gameObject.transform.position);
-        _lineRenderer.SetPosition(0,targetPostion);
+        _lineRenderer.SetPosition(0, _gameObject.transform.position);
+        _lineRenderer.SetPosition(0, targetPostion);
     }
 
-    protected void DoPlaySoundEffectGeneric(String audioClipName,Vector3 targetPostion)
+    protected void DoPlaySoundEffectGeneric(String audioClipName, Vector3 targetPostion)
     {
-        AudioClip clip = null;
+        AudioClip clip =FactoryManager.AssetFactory.LoadAudioClip(audioClipName);
         _audioSource.clip = clip;
         _audioSource.Play();
     }

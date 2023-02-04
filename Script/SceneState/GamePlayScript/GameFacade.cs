@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Script.CampSystem;
 using UnityEngine;
 
 public class GameFacade
@@ -23,17 +24,17 @@ public class GameFacade
         get { return _isGameOver; }
     }
 
-    private AchievementSystem _achievementSystem;
-    private CampSystem _campSystem;
-    private CharacterSystem _characterSystem;
-    private EnergySystem _energySystem;
-    private GameEventSystem _gameEventSystem;
-    private StageSystem _stageSystem;
+    private AchievementSystem _achievementSystem=new AchievementSystem();
+    private CampSystem _campSystem=new CampSystem();
+    private CharacterSystem _characterSystem=new CharacterSystem();
+    private EnergySystem _energySystem=new EnergySystem();
+    private GameEventSystem _gameEventSystem=new GameEventSystem();
+    private StageSystem _stageSystem=new StageSystem();
 
-    private UICampInfo _uiCampInfo;
-    private UIGamePause _uiGamePause;
-    private UISodierInfo _uiSodierInfo;
-    private UIStateInfo _uiStateInfo;
+    private UICampInfo _uiCampInfo=new UICampInfo();
+    private UIGamePause _uiGamePause=new UIGamePause();
+    private UISodierInfo _uiSodierInfo=new UISodierInfo();
+    private UIStateInfo _uiStateInfo=new UIStateInfo();
     public void Init()
     {
         _achievementSystem.Init();
@@ -51,8 +52,9 @@ public class GameFacade
 
     public void Update()
     {
-        _achievementSystem.Update();
+        
         _campSystem.Update();
+        _achievementSystem.Update();
         _characterSystem.Update();
         _energySystem.Update();
         _gameEventSystem.Update();
@@ -83,5 +85,20 @@ public class GameFacade
     {
         //TODO 
         return Vector3.zero;
+    }
+
+    public void ShowCampInfo(ICamp camp)
+    {
+        _uiCampInfo.ShowCampInfo(camp);
+    }
+
+    public void AddSoldier(ISoldier soldier)
+    {
+        _characterSystem.AddSoldier(soldier);
+    }
+
+    public void AddEnemy(IEnemy enemy)
+    {
+        _characterSystem.AddEnemy(enemy);
     }
 }

@@ -1,36 +1,37 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Script.CharacterSystem.BaseAttr;
 using UnityEngine;
 
-public class ICharacterAttr
+public  class ICharacterAttr
 {
-    protected String _name;
-    protected float _maxHp;
-    protected float _moveSpeed;
     protected float _currentHp;
-    protected String _iconSpritc;
-
     protected int _LV;
     protected float _criticalRate;
 
+    protected CharacterBaseAttr _baseAttr;
+
     protected IAttrStrategy _attrStrategy;
+
     
     public int CriticaPoint
     {
         get { return _attrStrategy.GetCriticalPoints(_attrStrategy.GetExtraCriticalRate(_LV)); }
     }
-    
+
     public float CurrentHP
     {
         get { return _currentHp; }
     }
 
-    public ICharacterAttr(IAttrStrategy attrStrategy)
+    public ICharacterAttr(IAttrStrategy attrStrategy,int level,CharacterBaseAttr baseAttr)
     {
+        _baseAttr = baseAttr;
         _attrStrategy = attrStrategy;
-        _currentHp = _maxHp + _attrStrategy.GetExtraHp(_LV);
-        _moveSpeed += _attrStrategy.GetExtraSpeed(_LV);
+        _LV = level;
+        _currentHp = _baseAttr.MAXHp + _attrStrategy.GetExtraHp(_LV);
+        //baseAttr.MoveSpeed += _attrStrategy.GetExtraSpeed(_LV);
     }
 
     public void TakeDamage(int damage)

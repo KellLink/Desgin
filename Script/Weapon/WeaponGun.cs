@@ -17,4 +17,8 @@ public class WeaponGun : IWeapon
     {
         _effectPlayTime = 0.2f;
     }
+
+    public WeaponGun(int attkPoint, float attkRange, GameObject gameObject) : base(attkPoint, attkRange, gameObject)
+    {
+    }
 }

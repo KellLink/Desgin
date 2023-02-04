@@ -18,4 +18,8 @@ public class WeaponRifle : IWeapon
     {
         _effectPlayTime = 0.35f;
     }
+
+    public WeaponRifle(int attkPoint, float attkRange, GameObject gameObject) : base(attkPoint, attkRange, gameObject)
+    {
+    }
 }

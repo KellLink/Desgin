@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Script.Tools;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,7 +14,21 @@ public abstract class ICharacter
     protected IWeapon _weapon;
     protected Animator _animator;
 
+    public GameObject CharacterGameObject
+    {
+        set
+        {
+            _gameObject = value;
+            _animator = _gameObject.GetComponent<Animator>();
+            _navMeshAgent = _gameObject.GetComponent<NavMeshAgent>();
+            _audioSource = _gameObject.GetComponent<AudioSource>();
+        }
+    }
 
+    public ICharacterAttr Attr
+    {
+        set { _attr = value; }
+    }
     public float AttackRange
     {
         get { return _weapon.attackRange; }
@@ -21,7 +36,14 @@ public abstract class ICharacter
 
     public IWeapon Weapon
     {
-        set { _weapon = value; }
+        set
+        {
+            _weapon = value;
+            _weapon.Owner = this;
+            //TODO weapon attach ?weapon-point
+            GameObject weaponPoint = UnityToolkit.FindInChildren(_gameObject,"weapon-point");
+            UnityToolkit.AttackChildren(weaponPoint,_weapon.GameObject);
+        }
     }
 
     public void Attack(ICharacter target)
@@ -72,7 +94,7 @@ public abstract class ICharacter
     protected void DoPlaySoundGeneric(String soundName)
     {
         //TODO
-        AudioClip clip = null;
+        AudioClip clip = FactoryManager.AssetFactory.LoadAudioClip(soundName);
 
         _audioSource.clip = clip;
         _audioSource.Play();
@@ -81,6 +103,9 @@ public abstract class ICharacter
     protected void DoPlayEffectGenic(String effectName)
     {
         //TODO 
-        GameObject effectGo;
+        GameObject effectGo=FactoryManager.AssetFactory.LoadEffect(effectName);
+        effectGo.transform.position = _gameObject.transform.position;
+
+        effectGo.AddComponent<DestroyObject>();
     }
 }
