@@ -10,7 +10,7 @@ namespace Script.Factory.Character.Builder
             builder.AddCharacterAttr(); 
             builder.AddGameObject();
             builder.AddWeapon();
-
+            builder.AddToCharacterSystem();
             return builder.GetCharacter();
         }
     }

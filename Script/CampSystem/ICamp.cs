@@ -4,8 +4,7 @@ using Script.CampSystem.Command;
 using Script.CampSystem.EnergyCostStrategy;
 using UnityEngine;
 
-namespace Script.CampSystem
-{
+
     public abstract class ICamp
     {
         protected GameObject _gameObject;
@@ -96,4 +95,3 @@ namespace Script.CampSystem
         public abstract void UpgradeWeapon();
         
     }
-}

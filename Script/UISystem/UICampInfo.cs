@@ -40,7 +40,7 @@ public class UICampInfo : IUISystem
 
         _trainButton.onClick.AddListener(OnTrainButtonClick);
         _canelTrainButton.onClick.AddListener(OnCanelTrainButtonClick);
-        
+
         _campUpgradeButton.onClick.AddListener(OnCampUpgradeButtonClick);
         _campWeaponUpgradeButton.onClick.AddListener(OnWeaponUpgradeButtonOnClick);
         Hide();
@@ -68,14 +68,15 @@ public class UICampInfo : IUISystem
 
     public void ShowTrainingInfo()
     {
-        if (_camp==null)
+        if (_camp == null)
         {
-            return; 
+            return;
         }
-        _trainCount.text = "正在训练："+_camp.GetTrainCount().ToString();
-        _trainTime.text = "训练时间："+_camp.GetTrainRemainingTime().ToString("0.00");
 
-        if (_camp.GetTrainCount()==0)
+        _trainCount.text = "正在训练：" + _camp.GetTrainCount().ToString();
+        _trainTime.text = "训练时间：" + _camp.GetTrainRemainingTime().ToString("0.00");
+
+        if (_camp.GetTrainCount() == 0)
         {
             _canelTrainButton.interactable = false;
         }
@@ -104,18 +105,26 @@ public class UICampInfo : IUISystem
                 break;
         }
 
-        return "武器等级："+weaponString;
+        return "武器等级：" + weaponString;
     }
 
     public void OnTrainButtonClick()
     {
-        //TODO 能量》生产
-        _camp.Train();
+        int energy = _camp.TrainEnergyCost;
+        if (GameFacade.Instance().ConsumEnergy(energy))
+        {
+            _camp.Train();
+        }
+        else
+        {
+            GameFacade.Instance().ShowMessage("需要能量:"+energy+",能量不足，无法训练！！！");
+        }
     }
 
     public void OnCanelTrainButtonClick()
     {
-        //TODO 
+        int energy = _camp.TrainEnergyCost;
+        GameFacade.Instance().RecycleEnergy(energy);
         _camp.CancelTrainCommand();
     }
 
@@ -123,24 +132,42 @@ public class UICampInfo : IUISystem
     {
         //TODO 
         int energy = _camp.CampUpgradeEnergyCost;
-        if (energy<0)
+        if (energy < 0)
         {
-            Debug.Log("Cannot Upgrade Camp");
+            GameFacade.Instance().ShowMessage("兵营已满，无法升级!!!");
+            //Debug.Log("Cannot Upgrade Camp");
             return;
         }
-        _camp.UpgradeCamp();
-        ShowCampInfo(_camp);
+
+        if (GameFacade.Instance().ConsumEnergy(energy))
+        {
+            _camp.UpgradeCamp();
+            ShowCampInfo(_camp);
+        }
+        else
+        {
+            GameFacade.Instance().ShowMessage("需要能量:"+energy+",能量不足，无法升级！！");
+        }
     }
 
     public void OnWeaponUpgradeButtonOnClick()
     {
         int energy = _camp.WeaponUpgradeEnergyCost;
-        if (energy<0)
+        if (energy < 0)
         {
+            GameFacade.Instance().ShowMessage("武器等级已满，无法升级!!!");
             Debug.Log("Cannot Upgrade Weapon");
             return;
         }
-        _camp.UpgradeWeapon();
-        ShowCampInfo(_camp);
+
+        if (GameFacade.Instance().ConsumEnergy(energy))
+        {
+            _camp.UpgradeWeapon();
+            ShowCampInfo(_camp);
+        }
+        else
+        {
+            GameFacade.Instance().ShowMessage("需要能量:"+energy+",能量不足，无法升级！！");
+        }
     }
 }

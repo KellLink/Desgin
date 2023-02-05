@@ -9,7 +9,7 @@ public class EnemyChaseState : IEnemyState
 
     public override void Reason(List<ICharacter> targets)
     {
-        if (targets != null || targets.Count > 0)
+        if (targets != null && targets.Count > 0)
         {
             float distance = Vector3.Distance(targets[0].GetPostion(), _character.GetPostion());
             if (distance < _character.AttackRange)

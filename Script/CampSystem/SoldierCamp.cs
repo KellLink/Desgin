@@ -18,6 +18,7 @@ public class SoldierCamp : ICamp
         _level = level;
         _weaponType = weaponType;
         _energyCostStrategy = new SoldierEnergyCostStrategy();
+        UpdateEnergyCost();
     }
 
     public override int Level

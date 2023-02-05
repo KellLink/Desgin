@@ -10,12 +10,12 @@ public class SoldierAttackState : ISoldierState
 
     public override void Act(List<ICharacter> targets)
     {
-        _character.PlayAnimation("Attack");
+        _character.PlayAnimation("attack");
         if (targets == null || targets.Count == 0)
         {
             return;
         }
-
+        
         _currentAttackTime += Time.deltaTime;
 
         if (_currentAttackTime>=_attackCoolDownTime)

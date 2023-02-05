@@ -22,6 +22,7 @@ namespace Script.Factory.Character.Builder
         public override void AddGameObject()
         {
             GameObject enemyGo = FactoryManager.AssetFactory.LoadEnemy(_prefabName);
+            enemyGo=GameObject.Instantiate(enemyGo);
             enemyGo.transform.position = _spawnPosition;
             _character.CharacterGameObject = enemyGo;
         }

@@ -38,7 +38,6 @@ public static class UnityToolkit
 
     public static void AttackChildren(GameObject parent, GameObject children)
     {
-        Debug.Log(parent.name+"   "+children.name);
         children.transform.parent = parent.transform;
         children.transform.localPosition = Vector3.zero;
         children.transform.localScale=Vector3.zero;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyElf : IEnemy
 {
-    protected override void PlayEffect()
+    public override void PlayEffect()
     {
         DoPlayEffectGenic("ElfHitEffect");
     }

@@ -24,6 +24,16 @@ public  class ICharacterAttr
     {
         get { return _currentHp; }
     }
+    
+    public IAttrStrategy AttrStrategy
+    {
+        get { return _attrStrategy; }
+    }
+
+    public CharacterBaseAttr BaseAttr
+    {
+        get => _baseAttr;
+    }
 
     public ICharacterAttr(IAttrStrategy attrStrategy,int level,CharacterBaseAttr baseAttr)
     {

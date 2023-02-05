@@ -14,7 +14,7 @@ public class GameLoop : MonoBehaviour
 
     private void Start()
     {
-        _sceneStateController = new SceneStateController();
+        _sceneStateController = SceneStateController.Instance();
         _sceneStateController.SetState(new StartState(_sceneStateController),false);
     }
 

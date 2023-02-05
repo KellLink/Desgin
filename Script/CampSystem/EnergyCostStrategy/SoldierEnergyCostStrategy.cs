@@ -17,7 +17,10 @@ namespace Script.CampSystem.EnergyCostStrategy
                     energy = 80;
                     break;
                 case SoldierType.Captain:
-                    energy = 100;
+                    energy = -1;
+                    break;
+                case SoldierType.Captive:
+                    return 10;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(soldierType), soldierType, null);
@@ -36,6 +39,9 @@ namespace Script.CampSystem.EnergyCostStrategy
                     break;
                 case WeaponType.Rifle:
                     energy = 50;
+                    break;
+                case WeaponType.Rocket:
+                    energy = -1;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(weaponType), weaponType, null);

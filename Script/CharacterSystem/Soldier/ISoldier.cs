@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Script.CharacterSystem.Vistor;
 using UnityEngine;
 
 public enum SoldierType
 {
     Rookie,
     Sergeant,
-    Captain
+    Captain,
+    Captive
 }
 public abstract class ISoldier : ICharacter
 {
@@ -38,14 +40,22 @@ public abstract class ISoldier : ICharacter
 
     public void UpdateFSM(List<ICharacter> targets)
     {
+        if (_isKilled)
+        {
+            return;
+        }
         _fsmSystem.currentState.Reason(targets);
         _fsmSystem.currentState.Act(targets);
     }
 
     public override void UnderAttack(int damage)
     {
+        if (_isKilled)
+        {
+            return;
+        }
         base.UnderAttack(damage);
-        if (_attr.CriticaPoint < 0)
+        if (_attr.CurrentHP < 0)
         {
             PlaySound();
             PlayEffect();
@@ -53,6 +63,17 @@ public abstract class ISoldier : ICharacter
         }
     }
 
+    public override void Killed()
+    {
+        base.Killed();
+        GameFacade.Instance().NotifySubject(GameEventType.EnemyKilled);
+    }
+
     protected abstract void PlaySound();
     protected abstract void PlayEffect();
+
+    public override void RunVisitor(ICharacterVisitor visitor)
+    {
+        visitor.visitSoldier(this);
+    }
 }

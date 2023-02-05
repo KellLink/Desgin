@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyOrge : IEnemy
 {
-    protected override void PlayEffect()
+    public override void PlayEffect()
     {
-        DoPlayEffectGenic("OrgeHitEffect");
+        DoPlayEffectGenic("OgreHitEffect");
     }
 }

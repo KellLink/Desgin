@@ -7,7 +7,7 @@ public class SoldierChaseState : ISoldierState
 {
     public override void Reason(List<ICharacter> targets)
     {
-        _character.PlayAnimation("Run");
+        _character.PlayAnimation("move");
         if (targets==null||targets.Count==0)
         {
             _FSM.PerFormTransition(SoldierTransition.NoEnemyInsight);
